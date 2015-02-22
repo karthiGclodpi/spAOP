@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	 					 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+        				 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+        				 http://www.springframework.org/schema/aop 
+						 http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+ 
+<aop:aspectj-autoproxy/>
+
+<bean name="triangle" class="com.org.aop.model.Triangle">
+	<property name="name" value="Triangle Name"/>
+</bean>
+<bean name="circle" class="com.org.aop.model.Circle">
+	<!-- <property name="name" value="circle Name"/> -->
+</bean>
+
+<bean name="shapeService" class="com.org.aop.Service.ShapeService" autowire="byName"/>
+
+<bean name="logingAspect" class="com.org.aop.aspect.LogingAspect"/>
+<aop:config>
+		<aop:aspect id="logingAspect" ref="logingAspect">
+			<!-- 	<aop:pointcut expression="execution(public * get*())" id="allGetters"/>
+				<aop:around pointcut-ref="allGetters" method="myAround"/> -->
+				<aop:around pointcut="execution(public * getN*())" method="myAround"/>
+		</aop:aspect>
+</aop:config>
+
+<!-- Spring Data -->
+
+<context:annotation-config/>
+<context:component-scan base-package="com.org.data"/>
+
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+  		<property name="username" value="root" />
+		<property name="password" value="mysql" />
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/aturdoorstep" />
+</bean>
+<bean id="simpleJdbaDAOImpl" class="com.org.data.dao.SimpleJdbaDAOImpl">
+	<property name="dataSource" ref="dataSource"/>
+</bean>
+
+</beans>
