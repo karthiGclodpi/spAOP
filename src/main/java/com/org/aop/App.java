@@ -5,6 +5,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.org.aop.Service.FactoryService;
 import com.org.aop.Service.ShapeService;
+import com.org.data.dao.HibernateDAOImpl;
 import com.org.data.dao.JdbcDAOImpl;
 import com.org.data.dao.SimpleJdbaDAOImpl;
 import com.org.data.model.Circle;
@@ -40,8 +41,10 @@ public class App
     	
     /*Spring Data*/
     	ApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
+    	
     	JdbcDAOImpl dao=ctx.getBean("jdbcDAOImpl",JdbcDAOImpl.class);
     	SimpleJdbaDAOImpl sdao=ctx.getBean("simpleJdbaDAOImpl",SimpleJdbaDAOImpl.class);
+    	HibernateDAOImpl hdao=ctx.getBean("hibernateDAOImpl",HibernateDAOImpl.class);
     	//Circle circle =dao.getCircle(1);
     	System.out.println(dao.getCircleCount());
     	System.out.println(dao.getCircleNema(1));
@@ -51,6 +54,7 @@ public class App
     	//dao.createTriangle();
     	System.out.println(dao.getAllcircle());
     	System.out.println(sdao.getCircleCount());
+    	System.out.println("hibernate : "+ hdao.getCircleCount());
     	//System.out.println(circle.getName());
     	
     }
